@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Rock Paper Scissors Arcade</title>
 <link rel="stylesheet" href="style.css" />
 </head>
@@ -9,40 +10,44 @@
 
 
 <div class="app">
-<h1>🎮 Rock Paper Scissors Arcade</h1>
-
+<header class="header">
+<h1 class="title">🎮 Rock Paper Scissors Arcade</h1>
+<p class="subtitle">Test your luck against the computer</p>
+</header>
 
 <div class="controls">
-<label>
-Difficulty:
-<select id="difficulty">
+<div class="control-group">
+<label for="difficulty" class="label">Difficulty</label>
+<select id="difficulty" class="select">
 <option value="easy">Easy</option>
 <option value="normal">Normal</option>
 <option value="hard">Hard</option>
 </select>
-</label>
+</div>
 
-
-<label>
-Theme:
-<select id="theme">
+<div class="control-group">
+<label for="theme" class="label">Theme</label>
+<select id="theme" class="select">
 <option value="dark">Dark</option>
 <option value="emoji">Emoji</option>
 <option value="meme">Meme</option>
 </select>
-</label>
+</div>
 </div>
 
 
+<div class="game-container">
 <div class="game">
-<button type="button" data-move="rock">👊 Rock</button>
-<button type="button" data-move="paper">✋ Paper</button>
-<button type="button" data-move="scissors">✌️ Scissors</button>
+<button type="button" class="btn" data-move="rock" aria-label="Play Rock">👊 Rock</button>
+<button type="button" class="btn" data-move="paper" aria-label="Play Paper">✋ Paper</button>
+<button type="button" class="btn" data-move="scissors" aria-label="Play Scissors">✌️ Scissors</button>
 </div>
 
-
-<p id="result">Make your move!</p>
-
+<div class="result-container">
+<p id="result" class="result-text">Make your move!</p>
+<div id="moves" class="moves-display"></div>
+</div>
+</div>
 
 <div class="scores">
 <p>Player: <span id="playerScore">0</span></p>
@@ -51,19 +56,17 @@ Theme:
 </div>
 
 
+<section class="leaderboard-section">
 <h2>🏆 Leaderboard</h2>
-<ul id="leaderboard"></ul>
+<ul id="leaderboard" class="leaderboard"></ul>
+</section>
 </div>
-<!-- Add before closing body tag -->
 
-<!-- Sounds -->
+<!-- Audio -->
 <audio id="winSound" src="assets/win.mp3"></audio>
 <audio id="loseSound" src="assets/lose.mp3"></audio>
 <audio id="tieSound" src="assets/tie.mp3"></audio>
 
 <script src="script.js"></script>
-
-
-<script src=script.js></script>
 </body>
 </html>

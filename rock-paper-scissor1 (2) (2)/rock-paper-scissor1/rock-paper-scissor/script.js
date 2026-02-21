@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   // ===== ELEMENTS =====
-  const buttons = document.querySelectorAll(".game button");
+  const buttons = document.querySelectorAll(".btn");
   const resultEl = document.getElementById("result");
+  const movesEl = document.getElementById("moves");
   const playerScoreEl = document.getElementById("playerScore");
   const computerScoreEl = document.getElementById("computerScore");
   const streakEl = document.getElementById("streak");
@@ -24,6 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let bestStreak = localStorage.getItem("bestStreak") || 0;
 
   const moves = ["rock", "paper", "scissors"];
+  const moveEmojis = {
+    rock: "👊",
+    paper: "✋",
+    scissors: "✌️"
+  };
 
   // ===== HELPER FUNCTIONS =====
 
@@ -58,10 +64,35 @@ document.addEventListener("DOMContentLoaded", () => {
     return moves[Math.floor(Math.random() * moves.length)];
   }
 
+  function displayMoves(playerMove, computerMove) {
+    movesEl.innerHTML = `
+      <div class="move-item">
+        <div>${moveEmojis[playerMove]}</div>
+        <div class="move-label">You</div>
+      </div>
+      <div class="vs">vs</div>
+      <div class="move-item">
+        <div>${moveEmojis[computerMove]}</div>
+        <div class="move-label">Computer</div>
+      </div>
+    `;
+  }
+
+  function clearMoves() {
+    movesEl.innerHTML = '';
+  }
+
   function updateLeaderboard() {
     leaderboardEl.innerHTML = `
-      <li>🔥 Best Win Streak: ${bestStreak}</li>
+      <li>🔥 Best Win Streak: <strong>${bestStreak}</strong></li>
     `;
+  }
+
+  function animateScore() {
+    playerScoreEl.parentElement.style.animation = 'none';
+    setTimeout(() => {
+      playerScoreEl.parentElement.style.animation = 'popIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+    }, 10);
   }
 
   // ===== GAME LOGIC =====
@@ -69,42 +100,58 @@ document.addEventListener("DOMContentLoaded", () => {
     const computerMove = getComputerMove(playerMove);
 
     let result = "";
+    let resultMessage = "";
 
-    if (playerMove === computerMove) {
-      result = "tie";
-      resultEl.textContent = "🤝 It's a Tie!";
-      streak = 0;
-    }
-    else if (
-      (playerMove === "rock" && computerMove === "scissors") ||
-      (playerMove === "paper" && computerMove === "rock") ||
-      (playerMove === "scissors" && computerMove === "paper")
-    ) {
-      result = "win";
-      resultEl.textContent = "🎉 You Win!";
-      playerScore++;
-      streak++;
-    }
-    else {
-      result = "lose";
-      resultEl.textContent = "😢 You Lose!";
-      computerScore++;
-      streak = 0;
-    }
+    // Display moves
+    displayMoves(playerMove, computerMove);
 
-    playSound(result);
+    // Disable buttons during result display
+    buttons.forEach(btn => btn.disabled = true);
 
-    // Update best streak
-    if (streak > bestStreak) {
-      bestStreak = streak;
-      localStorage.setItem("bestStreak", bestStreak);
-      updateLeaderboard();
-    }
+    // Determine result after a short delay for animation effect
+    setTimeout(() => {
+      if (playerMove === computerMove) {
+        result = "tie";
+        resultMessage = "🤝 It's a Tie!";
+        streak = 0;
+      }
+      else if (
+        (playerMove === "rock" && computerMove === "scissors") ||
+        (playerMove === "paper" && computerMove === "rock") ||
+        (playerMove === "scissors" && computerMove === "paper")
+      ) {
+        result = "win";
+        resultMessage = "🎉 You Win!";
+        playerScore++;
+        streak++;
+        animateScore();
+      }
+      else {
+        result = "lose";
+        resultMessage = "😢 You Lose!";
+        computerScore++;
+        streak = 0;
+        animateScore();
+      }
 
-    // Update UI
-    playerScoreEl.textContent = playerScore;
-    computerScoreEl.textContent = computerScore;
-    streakEl.textContent = streak;
+      resultEl.textContent = resultMessage;
+      playSound(result);
+
+      // Update best streak
+      if (streak > bestStreak) {
+        bestStreak = streak;
+        localStorage.setItem("bestStreak", bestStreak);
+        updateLeaderboard();
+      }
+
+      // Update UI
+      playerScoreEl.textContent = playerScore;
+      computerScoreEl.textContent = computerScore;
+      streakEl.textContent = streak;
+
+      // Re-enable buttons
+      buttons.forEach(btn => btn.disabled = false);
+    }, 600);
   }
 
   // ===== EVENTS =====
@@ -120,5 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ===== INIT =====
   updateLeaderboard();
+  clearMoves();
 
 });
