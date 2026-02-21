@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Rock Paper Scissors Arcade</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark">
+
+
+<div class="app">
+<h1>🎮 Rock Paper Scissors Arcade</h1>
+
+
+<div class="controls">
+<label>
+Difficulty:
+<select id="difficulty">
+<option value="easy">Easy</option>
+<option value="normal">Normal</option>
+<option value="hard">Hard</option>
+</select>
+</label>
+
+
+<label>
+Theme:
+<select id="theme">
+<option value="dark">Dark</option>
+<option value="emoji">Emoji</option>
+<option value="meme">Meme</option>
+</select>
+</label>
+</div>
+
+
+<div class="game">
+<button type="button" data-move="rock">👊 Rock</button>
+<button type="button" data-move="paper">✋ Paper</button>
+<button type="button" data-move="scissors">✌️ Scissors</button>
+</div>
+
+
+<p id="result">Make your move!</p>
+
+
+<div class="scores">
+<p>Player: <span id="playerScore">0</span></p>
+<p>Computer: <span id="computerScore">0</span></p>
+<p>Win Streak: <span id="streak">0</span></p>
+</div>
+
+
+<h2>🏆 Leaderboard</h2>
+<ul id="leaderboard"></ul>
+</div>
+<!-- Add before closing body tag -->
+
+<!-- Sounds -->
+<audio id="winSound" src="assets/win.mp3"></audio>
+<audio id="loseSound" src="assets/lose.mp3"></audio>
+<audio id="tieSound" src="assets/tie.mp3"></audio>
+
+<script src="script.js"></script>
+
+
+<script src=script.js></script>
+</body>
+</html>
